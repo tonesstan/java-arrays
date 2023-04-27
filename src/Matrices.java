@@ -25,15 +25,50 @@ public class Matrices {
             this.items = items;
         }
 
-        public Vector scale(int scalar) {
-            return todo();
-        }
-
-        public Vector scalarMultiply(Vector other) {
-            return todo();
-        }
-
+        /**
+         * Складывает данный вектор с другим вектором.
+         *
+         * @param other вектор, который должен быть сложен с данным вектором; должен иметь ту же длину, что и данный вектор
+         * @return новый вектор, представляющий сумму данного и другого векторов
+         */
         public Vector add(Vector other) {
+            return todo();
+        }
+
+        /**
+         * Вычитает другой вектор из данного вектора.
+         *
+         * @param other вектор, который должен быть вычтен из данного вектора; должен иметь ту же длину, что и данный вектор
+         * @return новый вектор, представляющий разность данного и другого векторов
+         */
+        public Vector subtract(Vector other) {
+            return todo();
+        }
+
+        /**
+         * Вычисляет скалярное произведение данного вектора с другим вектором.
+         *
+         * @param other вектор, с которым должно быть вычислено скалярное произведение; должен иметь ту же длину, что и данный вектор
+         * @return скалярное произведение данного и другого векторов
+         */
+        public int dotProduct(Vector other) {
+            return todo();
+        }
+
+        /**
+         * Умножает данный вектор на скаляр.
+         *
+         * @param scalar скалярное значение, на которое должен быть умножен данный вектор
+         * @return новый вектор, представляющий результат умножения данного вектора на скаляр
+         */
+        public Vector scalarMultiply(int scalar) {
+            return todo();
+        }
+
+        /**
+         * Вычисляет длину (норму) данного вектора.
+         */
+        public double length() {
             return todo();
         }
 
@@ -149,17 +184,42 @@ public class Matrices {
             return todo();
         }
 
-        /**
-         * Вычисляет обратную матрицу для текущей матрицы.
-         *
-         * @return новая матрица, являющаяся обратной матрицей к текущей матрице
-         */
-        public Matrix inverse() {
-            return todo();
-        }
     }
 
     public static void main(String[] args) {
+        // Пример создания нулевого вектора длины 3
+        Vector zeroVector = new Vector(3);
+        System.out.println("Нулевой вектор длины 3: " + zeroVector);
+
+        // Пример создания вектора с заданными элементами
+        int[] items = {1, 2, 3};
+        Vector vectorA = new Vector(items);
+        System.out.println("Вектор A: " + vectorA);
+
+        // Пример сложения двух векторов
+        int[] itemsB = {4, 5, 6};
+        Vector vectorB = new Vector(itemsB);
+        System.out.println("Вектор B: " + vectorB);
+        Vector sumVector = vectorA.add(vectorB);
+        System.out.println("Сумма векторов A и B: " + sumVector);
+
+        // Пример вычитания двух векторов
+        Vector diffVector = vectorA.subtract(vectorB);
+        System.out.println("Разность векторов A и B: " + diffVector);
+
+        // Пример скалярного произведения двух векторов
+        int dotProduct = vectorA.dotProduct(vectorB);
+        System.out.println("Скалярное произведение векторов A и B: " + dotProduct);
+
+        // Пример умножения вектора на скаляр
+        int scalar = 2;
+        Vector scalarProduct = vectorA.scalarMultiply(scalar);
+        System.out.println("Умножение вектора A на скаляр 2: " + scalarProduct);
+
+        // Пример вычисления длины (нормы) вектора
+        double length = vectorA.length();
+        System.out.println("Длина (норма) вектора A: " + length);
+
         // Создание матрицы A 2x2
         Matrix A = new Matrix(2, 2);
         A.rows[0] = new int[]{1, 2};
@@ -190,9 +250,9 @@ public class Matrices {
         System.out.println(E.toString());
 
         // Умножение матрицы A на скаляр
-        int scalar = 3;
-        Matrix F = A.scalarMultiply(scalar);
-        System.out.println("Matrix A * " + scalar + ":");
+        int scalar3 = 3;
+        Matrix F = A.scalarMultiply(scalar3);
+        System.out.println("Matrix A * " + scalar3 + ":");
         System.out.println(F.toString());
 
         // Транспонирование матрицы A
@@ -213,9 +273,5 @@ public class Matrices {
         System.out.println("Determinant of Matrix H:");
         System.out.println(det);
 
-        // Вычисление обратной матрицы для матрицы H
-        Matrix I = H.inverse();
-        System.out.println("Inverse of Matrix H:");
-        System.out.println(I.toString());
     }
 }
