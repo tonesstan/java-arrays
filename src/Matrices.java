@@ -33,7 +33,9 @@ public class Matrices {
          * @return новый вектор, представляющий сумму данного и другого векторов
          */
         public Vector add(Vector other) {
-            return todo();
+            int[] newItems = Arrays.copyOf(this.items, this.items.length);
+            for (int i = 0; i < this.items.length; i++) newItems[i] += other.items[i];
+            return new Vector(newItems);
         }
 
         /**
@@ -44,7 +46,9 @@ public class Matrices {
          * @return новый вектор, представляющий разность данного и другого векторов
          */
         public Vector subtract(Vector other) {
-            return todo();
+            int[] newItems = Arrays.copyOf(this.items, this.items.length);
+            for (int i = 0; i < this.items.length; i++) newItems[i] -= other.items[i];
+            return new Vector(newItems);
         }
 
         /**
@@ -55,7 +59,9 @@ public class Matrices {
          * @return скалярное произведение данного и другого векторов
          */
         public int dotProduct(Vector other) {
-            return todo();
+            int sum = 0;
+            for (int i = 0; i < this.items.length; i++) sum += this.items[i] * other.items[i];
+            return sum;
         }
 
         /**
@@ -65,15 +71,15 @@ public class Matrices {
          * @return новый вектор, представляющий результат умножения данного вектора на скаляр
          */
         public Vector scalarMultiply(int scalar) {
-            return todo();
+            int[] newItems = Arrays.copyOf(this.items, this.items.length);
+            for (int i = 0; i < this.items.length; i++) newItems[i] = scalar * this.items[i];
+            return new Vector(newItems);
         }
 
         /**
          * Вычисляет длину (норму) данного вектора.
          */
-        public double length() {
-            return todo();
-        }
+        public double length() {return Math.sqrt(dotProduct(this));}
 
         @Override
         public String toString() {
@@ -137,7 +143,13 @@ public class Matrices {
          * @return новая матрица, являющаяся результатом сложения
          */
         public Matrix add(Matrix other) {
-            return todo();
+            Matrix result = new Matrix(this.nRows, this.nCols);
+            for (int row = 0; row < this.nRows; row++) {
+                for (int col = 0; col < this.nCols; col++) {
+                    result.rows[row][col] = this.rows[row][col] + other.rows[row][col];
+                }
+            }
+            return result;
         }
 
         /**
@@ -148,7 +160,13 @@ public class Matrices {
          * @return новая матрица, являющаяся результатом вычитания
          */
         public Matrix subtract(Matrix other) {
-            return todo();
+            Matrix result = new Matrix(this.nRows, this.nCols);
+            for (int row = 0; row < this.nRows; row++) {
+                for (int col = 0; col < this.nCols; col++) {
+                    result.rows[row][col] = this.rows[row][col] - other.rows[row][col];
+                }
+            }
+            return result;
         }
 
         /**
@@ -159,7 +177,18 @@ public class Matrices {
          * @return новая матрица, являющаяся результатом умножения
          */
         public Matrix multiply(Matrix other) {
-            return todo();
+           if (this.nCols != other.nRows) throw new IllegalArgumentException("Invalid matrix size");
+           Matrix result = new Matrix(this.nRows, other.nCols);
+           for (int row = 0; row < this.nRows; row++) {
+               for (int col = 0; col < other.nCols; col++) {
+                   int sum = 0;
+                   for (int i = 0; i < this.nCols; i++) {
+                       sum += this.rows[row][i] * other.rows[i][col];
+                   }
+                   result.rows[row][col] = sum;
+               }
+           }
+           return result;
         }
 
         /**
@@ -169,7 +198,13 @@ public class Matrices {
          * @return новая матрица, являющаяся результатом умножения на скаляр
          */
         public Matrix scalarMultiply(int scalar) {
-            return todo();
+            Matrix result = new Matrix(this.nRows, this.nCols);
+            for (int row = 0; row < this.nRows; row++) {
+                for (int col = 0; col < this.nCols; col++) {
+                    result.rows[row][col] = this.rows[row][col] * scalar;
+                }
+            }
+            return result;
         }
 
         /**
@@ -178,7 +213,13 @@ public class Matrices {
          * @return новая матрица, являющаяся транспонированной версией текущей матрицы
          */
         public Matrix transpose() {
-            return todo();
+            Matrix result = new Matrix(this.nCols, this.nRows);
+            for (int row = 0; row < this.nRows; row++) {
+                for (int col = 0; col < this.nCols; col++) {
+                    result.rows[row][col] = this.rows[col][row];
+                }
+            }
+            return result;
         }
 
         /**
@@ -187,7 +228,8 @@ public class Matrices {
          * @return значение определителя матрицы
          */
         public int determinant() {
-            return todo();
+            if (this.nCols != this.nRows) throw new IllegalArgumentException("Invalid matrix size");
+            return determinant(this.rows);
         }
 
         /**
@@ -205,7 +247,7 @@ public class Matrices {
 
             // Базовый случай для матрицы 2x2
             if (matrix.length == 2) {
-                return todo();
+                return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
             }
 
             int result = 0;
@@ -213,7 +255,14 @@ public class Matrices {
             for (int i = 0; i < matrix.length; i++) {
                 // Создание матрицы для поддетерминанта
                 int[][] smallerMatrix = new int[matrix.length - 1][matrix.length - 1];
-                todo(); // Заполнение smallerMatrix нужными значениями из matrix
+                for (int j = 0; j < smallerMatrix.length; j++) {
+                    int x = 0;
+                    for (int k = 0; k < smallerMatrix.length; k++) {
+                        if (x == 0) if (k == i) x++;
+                        smallerMatrix[j][k] = matrix[j+1][k+x];
+                    }
+                }
+                 // Заполнение smallerMatrix нужными значениями из matrix
 
                 // Вычисление поддетерминанта рекурсивным вызовом
                 int subDeterminant = determinant(smallerMatrix);
